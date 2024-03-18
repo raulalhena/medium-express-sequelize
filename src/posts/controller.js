@@ -1,15 +1,15 @@
 import { postService } from './service.js';
 
-const findAll = (req, res) => {
-  res.status(200).json(postService.findAll());
+const findAll = async (req, res) => {
+  res.status(200).json(await postService.findAll());
 }
 
-const findOneById = (req, res) => {
-  res.status(200).json(postService.findOneById(+req.params.id));
+const findOneById = async (req, res) => {
+  res.status(200).json(await postService.findOneById(+req.params.id));
 }
 
-const create = (req, res) => {
-  res.status(201).json(postService.create(req.body));
+const create = async (req, res) => {
+  res.status(201).json(await postService.create(req.body));
 }
 
 export const postController = {

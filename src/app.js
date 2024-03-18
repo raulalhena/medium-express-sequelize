@@ -2,6 +2,8 @@ import express from 'express';
 import userRouter from './routes/users.js';
 import postRouter from './routes/posts.js';
 import { sequelize } from './db/db.config.js';
+import { User } from './users/entities/User.entity.js';
+import { Post } from './posts/entities/Post.entity.js';
 
 const app = express();
 
@@ -20,7 +22,15 @@ app.use('/users', userRouter);
 app.use('/posts', postRouter);
 
 try{
-  await sequelize.authenticate();
+  User.hasMany(Post, {
+    foreignKey: 'userId'
+  });
+
+  Post.belongsTo(User, {
+    foreignKey: 'userId'
+  });
+
+  await sequelize.sync({ force: true });
   console.log('Connection with DB stablished');
 } catch(error) {
   console.log('DB not connected', error);

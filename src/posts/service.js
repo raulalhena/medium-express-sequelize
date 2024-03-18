@@ -1,24 +1,27 @@
 import { userService } from '../users/service.js';
 import { postRepository } from './repository.js';
 
-const findAll = () => {
-    const posts = postRepository.findAll();
+const findAll = async () => {
+    const posts = await postRepository.findAll();
     return {
       posts: posts
     }
 }
 
-const findOneById = (id) => {
-  const post = postRepository.findOneById(id);
+const findOneById = async (id) => {
+  const post = await postRepository.findOneById(id);
   return {
     post: post
   }
 }
 
-const create = (postObj) => {
-  const { userId, ...rawPost } = postObj;
-  const newPost = postRepository.create(rawPost);
-  if(newPost) userService.addPostToUser(userId, newPost.id);
+const findUserPosts = async (userId) => {
+  const userPosts = await postRepository.findUserPosts(userId);
+  return userPosts;
+}
+
+const create = async (post) => {
+  const newPost = await postRepository.create(post);
   return {
     post: newPost
   }
@@ -27,5 +30,6 @@ const create = (postObj) => {
 export const postService = {
   findAll,
   findOneById,
-  create
+  create,
+  findUserPosts
 }

@@ -1,21 +1,25 @@
-import { posts } from "../../data/posts.js";
+import { Post } from "./entities/Post.entity.js";
 
-const findAll = () => {
-    return posts;
+const findAll = async () => {
+    return await Post.findAll();
 }
 
-const findOneById = (id) => {
-  return posts.find(post => post.id === id);
+const findOneById = async (id) => {
+  return await Post.findOne({ where: { id: id }});
 }
 
-const create = (post) => {
-  post.id = posts.length + 1;
-  posts.push(post);
-  return posts.slice(-1)[0];
+const findUserPosts = async (userId) => {
+  return await Post.findAll({ where: { userId: userId }});
+}
+
+const create = async (post) => {
+  const newPost = await Post.create(post);
+  return newPost;
 }
 
 export const postRepository ={
   findAll,
   findOneById,
-  create
+  create,
+  findUserPosts
 }

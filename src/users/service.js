@@ -1,16 +1,17 @@
 import { userRepository } from './repository.js';
 import { postService } from '../posts/service.js';
 
-const findAll = () => {
-    const users = userRepository.findAll();
+const findAll = async () => {
+    const users = await userRepository.findAll();
     return {
       users: users
     }
 }
 
-const findOneById = (id) => {
-  const user = userRepository.findOneById(id);
-  const posts = findUserPosts(user.posts);
+const findOneById = async (id) => {
+  console.log('user id service ', id)
+  const user = await userRepository.findOneById(id);
+  const posts = await findUserPosts(id);
   return {
     id: user.id,
     name: user.name,
@@ -19,23 +20,20 @@ const findOneById = (id) => {
   }
 }
 
-const findUserPosts = (createdPosts) => {
-  const { posts } = postService.findAll();
-  const userPosts = createdPosts.map(post => {
-    return posts.find(inPost => inPost.id === post);
-  });
+const findUserPosts = async (userId) => {
+  const userPosts = await postService.findUserPosts(userId);
   return userPosts;
 }
 
-const create = (userObj) => {
-  const newUser = userRepository.create(userObj);
+const create = async (userObj) => {
+  const newUser = await userRepository.create(userObj);
   return {
     user: newUser
   }
 }
 
-const addPostToUser = (userId, postId) => {
-  userRepository.addPostToUser(userId, postId);
+const addPostToUser = async  (userId, postId) => {
+  await userRepository.addPostToUser(userId, postId);
 }
 
 export const userService = {

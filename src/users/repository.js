@@ -1,29 +1,21 @@
-import { users } from "../../data/users.js";
+import { User } from "./entities/User.entity.js";
 
-const findAll = () => {
+const findAll = async () => {
+    const users = await User.findAll();
     return users;
 }
 
-const findOneById = (id) => {
-  return users.find(user => user.id === id);
+const findOneById = async (id) => {
+  return await User.findOne({ where: { id: id }});
 }
 
-const create = (user) => {
-  user.id = users.length + 1;
-  user.posts = [];
-  users.push(user);
-  return users.slice(-1)[0];
+const create = async(user) => {
+  const newUser = await User.create(user);
+  return newUser;
 }
 
-const addPostToUser = (userId, postId) => {
-  users.map(user => {
-    if(user.id === userId) user.posts.push(postId);
-  });
-}
-
-export const userRepository ={
+export const userRepository ={  
   findAll,
   findOneById,
-  create,
-  addPostToUser
+  create
 }
