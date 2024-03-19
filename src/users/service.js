@@ -32,10 +32,6 @@ const create = async (userObj) => {
   }
 }
 
-const addPostToUser = async  (userId, postId) => {
-  await userRepository.addPostToUser(userId, postId);
-}
-
 export const userService = {
   findAll,
   findOneById,

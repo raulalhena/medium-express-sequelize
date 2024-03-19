@@ -1,4 +1,3 @@
-import { userService } from '../users/service.js';
 import { postRepository } from './repository.js';
 
 const findAll = async () => {
