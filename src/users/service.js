@@ -35,6 +35,5 @@ const create = async (userObj) => {
 export const userService = {
   findAll,
   findOneById,
-  create,
-  addPostToUser
+  create
 }
